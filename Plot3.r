@@ -18,14 +18,17 @@ data <- read.table(text = grep("^[1,2]/2/2007",readLines(files),value=TRUE), sep
 
 # Create plot
 
-# Open device and create png file
-str(data)
+# Update fields
 datetime <- strptime(paste(data$Date, data$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
 globalActivePower <- as.numeric(data$Global_active_power)
 subMetering1 <- as.numeric(data$Sub_metering_1)
 subMetering2 <- as.numeric(data$Sub_metering_2)
 subMetering3 <- as.numeric(data$Sub_metering_3)
+
+# Open device and create png file
+if(!file.exists('plots')) dir.create('plots')
 png("./plots/plot3.png", width=480, height=480)
+# Plot figure
 plot(datetime, subMetering1, type="l", ylab="Energy Submetering", xlab="")
 lines(datetime, subMetering2, type="l", col="red")
 lines(datetime, subMetering3, type="l", col="blue")
